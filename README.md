@@ -1,46 +1,69 @@
 # 🔐 Secure Email Authentication Gateway
 
-A web-based gateway for analyzing email authentication using **SPF, DKIM, and DMARC**. It parses raw email headers, checks DNS authentication records, analyzes DKIM signatures, and presents the results through a security dashboard.
+A Python-based email security application designed to inspect email authentication mechanisms and identify potential spoofing attempts. The gateway analyzes raw email headers, retrieves relevant DNS authentication records, and displays SPF, DKIM, and DMARC results through an interactive web dashboard.
 
-## ✨ Features
+## 🎯 Project Overview
 
-- 📧 Raw email header analysis
-- 🛡️ SPF record detection
-- 🔑 DKIM signature parsing
-- 🌐 DKIM public-key DNS lookup
-- 🔒 DMARC policy analysis
-- 📊 Authentication status dashboard
-- 🔍 Real email header testing
+Email spoofing and phishing attacks exploit weaknesses in sender authentication. This project demonstrates how three major email security standards work together to verify sender identity and improve email trust.
 
-## 🏗️ Architecture
+The application provides a centralized interface for examining authentication details and understanding whether an email passes the configured security checks.
+
+## ✨ Key Capabilities
+
+- **Email Header Inspection:** Extracts and processes information from raw email headers.
+- **SPF Validation:** Identifies SPF authentication records through DNS queries.
+- **DKIM Inspection:** Extracts DKIM signature parameters from email headers.
+- **Public Key Retrieval:** Looks up DKIM public keys using DNS selectors and domains.
+- **DMARC Evaluation:** Retrieves and interprets domain-level DMARC policies.
+- **Security Dashboard:** Displays authentication outcomes in an organized format.
+- **Practical Email Analysis:** Supports testing with original email headers.
+
+## 🧩 System Workflow
+
+The application follows a modular processing pipeline:
 
 ```text
-Raw Email
-    ↓
-Header Parser
-    ↓
-┌─────────┬─────────┬─────────┐
-│   SPF   │  DKIM   │  DMARC  │
-└────┬────┴────┬────┴────┬────┘
-     ↓         ↓         ↓
-        DNS Analysis
-             ↓
-     Security Report
+       Raw Email Header
+               |
+               v
+       Header Processing
+               |
+               v
+      Authentication Engine
+               |
+       +-------+-------+
+       |       |       |
+       v       v       v
+      SPF     DKIM    DMARC
+       |       |       |
+       +-------+-------+
+               |
+               v
+        DNS Record Lookup
+               |
+               v
+      Authentication Analysis
+               |
+               v
+       Security Dashboard
 ```
 
-## ⚙️ Tech Stack
+## 🛠️ Technologies Used
 
-- **Python**
-- **Flask**
-- **dnspython**
-- **dkimpy**
-- **cryptography**
-- **HTML / CSS**
+| Technology | Purpose |
+|---|---|
+| Python | Core application development |
+| Flask | Web application framework |
+| dnspython | DNS record queries |
+| dkimpy | DKIM signature processing |
+| cryptography | Cryptographic key generation |
+| HTML & CSS | User interface development |
 
-## 📁 Project Structure
+## 📂 Repository Layout
 
 ```text
 email-auth-gateway/
+│
 ├── app.py
 ├── generate_dkim.py
 ├── requirements.txt
@@ -65,81 +88,69 @@ email-auth-gateway/
     └── style.css
 ```
 
-## 🚀 Setup
+## 🚀 Installation and Execution
 
-### 1. Create virtual environment
+### Prerequisites
+- Python 3.x
+- pip package manager
+- Internet connection for DNS lookups
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/ambp08/Secure-Email-Authentication-Gateway.git
+cd Secure-Email-Authentication-Gateway
+```
+
+### 2. Set up a virtual environment
 
 ```bash
 python -m venv venv
 ```
 
-### 2. Activate
+### 3. Activate the environment
 
-**Windows:**
+**Windows PowerShell:**
 
 ```powershell
 .\venv\Scripts\Activate.ps1
 ```
 
-### 3. Install dependencies
+### 4. Install required packages
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Generate DKIM keys
+### 5. Generate DKIM key pair
 
 ```bash
 python generate_dkim.py
 ```
 
-### 5. Run the application
+### 6. Launch the application
 
 ```bash
 python app.py
 ```
 
-Open:
+Access the application in your browser:
 
-```text
-http://127.0.0.1:5000
-```
+`http://127.0.0.1:5000`
 
-## 🧪 Testing
+## 🧪 How to Test
 
-Paste raw email headers into the gateway.
+1. Open an email in Gmail.
+2. Select **Show original** from the email options.
+3. Copy the original email headers.
+4. Paste them into the gateway.
+5. Submit the headers for analysis.
+6. Review the authentication results.
 
-For real-world testing, use **Gmail → Show original** and paste the original email content into the application.
+The dashboard reports the following authentication statuses:
 
-The gateway analyzes:
-
-```text
-SPF   → PASS / FAIL / UNKNOWN
-DKIM  → PASS / FAIL / UNKNOWN
-DMARC → PASS / FAIL / UNKNOWN
-```
-
-## 🔐 Security
-
-The DKIM private key must **never** be published or committed to GitHub.
-
-Only the DKIM public key should be published through DNS.
-
-## 🚧 Future Enhancements
-
-- Independent DKIM cryptographic verification
-- Complete SPF sender-IP evaluation
-- Full DMARC alignment engine
-- Security scoring
-- DMARC report analysis
-- Authentication history
-
-## 📚 Standards
-
-- SPF — RFC 7208
-- DKIM — RFC 6376
-- DMARC — RFC 7489
-
-## 📄 License
-
-For educational and security research purposes.
+| Protocol | Possible Results |
+|---|---|
+| SPF | PASS / FAIL / UNKNOWN |
+| DKIM | PASS / FAIL / UNKNOWN |
+| DMARC | PASS / FAIL / UNKNOWN |
